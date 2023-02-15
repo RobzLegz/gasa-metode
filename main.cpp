@@ -58,5 +58,41 @@ int main(int argc, char *argv[])
         cout << endl;
     }
 
+    int divider = matrix[0][0];
+
+    cout << "Divide R1 by " << divider << endl;
+
+    for (int i = 0; i <= cols; i++)
+    {
+        matrix[0][i] = matrix[0][i] / divider;
+    }
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols - 1; j++)
+        {
+            cout << matrix[i][j] << " ";
+        }
+
+        cout << "| " << matrix[i][cols];
+        cout << endl;
+    }
+
+    for (int i = 0; i < rows; i++)
+    {
+        cout << matrix[0][i] << ' ';
+    }
+
+    cout << "| " << matrix[0][cols] << " ";
+
+    for (int i = 0; i < rows; i++)
+    {
+        cout << "(*" << -matrix[i][0] << ");";
+    }
+
+    for (int i = 0; i < rows; i++){
+
+    }
+
     return 0;
 }
