@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 
     cout << "| " << matrix[0][cols] << " ";
 
-    for (int i = 0; i < rows; i++)
+    for (int i = 1; i < rows; i++)
     {
         cout << "(*" << -matrix[i][0] << ");";
     }
