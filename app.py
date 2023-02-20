@@ -4,7 +4,7 @@ class App:
     def __init__(self):
         self.rows: int = self.get_int("Enter row count: ")
         self.matrix: list[list[int]] = self.get_matrix(self.rows)
-        self.result: list[list[int]] = self.gauss(self.matrix)
+        self.result: list[float] = self.gauss(self.matrix)
 
         print("Rezultāts: ", self.result)
 
@@ -34,23 +34,19 @@ class App:
 
         return matrix
 
-    def gauss(self, matrix: list[list[int]]) -> list[int]:
+    def gauss(self, matrix: list[list[int]]) -> list[float]:
         divider = matrix[0][0]
 
         print(f"Dividing R0 by {divider}")
 
         for i in range(len(matrix[0])):
             matrix[0][i] = matrix[0][i] / divider
-        
-        vector = [item[len(item) - 1] for item in matrix]
-        matrix = [item[ : -1] for item in matrix]
 
         matrix = np.matrix(matrix)
-        vector = np.array(vector)
         n = matrix.shape[0]
 
         print("Starting matrix:")
-        print(np.concatenate((matrix, vector.reshape(-1, 1)), axis=1))
+        print(matrix)
 
         for i in range(n):
             pivot = matrix[i, i]
@@ -60,18 +56,16 @@ class App:
                 factor = matrix[j, i] / pivot
                 print(f"{factor}R{i} + R{j}")
                 matrix[j, i:] -= factor * matrix[i, i:]
-                vector[j] -= factor * vector[i]
 
-            print("After elimination:")
-            print(np.concatenate((matrix, vector.reshape(-1, 1)), axis=1))
+        print("After elimination:")
+        print(matrix)
 
         x = np.zeros(n)
 
         for i in range(n - 1, -1, -1):
             s = sum(matrix[i, j] * x[j] for j in range(i + 1, n))
-            x[i] = (vector[i] - s) / matrix[i, i]
+            x[i] = (matrix[i, -1] - s) / matrix[i, i]
 
         return x
-
 
 _ = App()
