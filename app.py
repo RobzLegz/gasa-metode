@@ -6,7 +6,7 @@ class App:
         self.matrix: list[list[int]] = self.get_matrix(self.rows)
         self.result: list[float] = self.gauss(self.matrix)
 
-        print("Rezultāts: ", self.result)
+        print("Result: ", self.result)
 
     def get_int(self, txt: str = "Enter int: ") -> int:
         num = None
@@ -20,16 +20,16 @@ class App:
         return num
 
     def get_matrix(self, rows: int) -> list[list[int]]:
-        return [
-            [3, -6, 3, -12],
-            [2, 3, 4, 8],
-            [4, 5, -2, 4]
-        ]
+        # return [
+        #     [3, -6, 3, -12],
+        #     [2, 3, 4, 8],
+        #     [4, 5, -2, 4]
+        # ]
 
         matrix = []
 
-        for _ in range(rows):
-            row = [self.get_int() for _ in range(rows+1)]
+        for i in range(rows):
+            row = [self.get_int(f"Enter item ({i}:{j}): ") for j in range(rows+1)]
             matrix.append(row)
 
         return matrix
