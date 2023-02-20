@@ -29,17 +29,26 @@ class App:
         return matrix
 
     def gauss(self, matrix: list[list[int]]) -> list[int]:
+        vector = [item[len(item) - 1] for item in matrix]
+        matrix = [item[ : -1] for item in matrix]
+
         n = len(matrix)
         for i in range(n):
-            max_row = max(range(i, n), key=lambda j: abs(matrix[j][i]))
-            matrix[i], matrix[max_row] = matrix[max_row], matrix[i]
+            max_row = i
             for j in range(i+1, n):
-                factor = matrix[j][i] / matrix[i][i]
-                matrix[j][i+1:] -= factor * matrix[i][i+1:]
-                matrix[j][i] = 0
+                if abs(matrix[j][i]) > abs(matrix[max_row][i]):
+                    max_row = j
+            matrix[i], matrix[max_row] = matrix[max_row], matrix[i]
+            vector[i], vector[max_row] = vector[max_row], vector[i]
+            for j in range(i+1, n):
+                factor = matrix[j][i]/matrix[i][i]
+                for k in range(i+1, n):
+                    matrix[j][k] -= factor*matrix[i][k]
+                vector[j] -= factor*vector[i]
         x = np.zeros(n)
         for i in range(n-1, -1, -1):
-            x[i] = (matrix[i][-1] - matrix[i][i+1:].dot(x[i+1:])) / matrix[i][i]
+            s = sum(matrix[i][j]*x[j] for j in range(i+1, n))
+            x[i] = (vector[i] - s)/matrix[i][i]
         return x
 
 _ = App()
