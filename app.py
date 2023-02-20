@@ -20,6 +20,12 @@ class App:
         return num
 
     def get_matrix(self, rows: int) -> list[list[int]]:
+        return [
+            [3, -6, 3, -12],
+            [2, 3, 4, 8],
+            [4, 5, -2, 4]
+        ]
+
         matrix = []
 
         for _ in range(rows):
@@ -29,26 +35,43 @@ class App:
         return matrix
 
     def gauss(self, matrix: list[list[int]]) -> list[int]:
+        divider = matrix[0][0]
+
+        print(f"Dividing R0 by {divider}")
+
+        for i in range(len(matrix[0])):
+            matrix[0][i] = matrix[0][i] / divider
+        
         vector = [item[len(item) - 1] for item in matrix]
         matrix = [item[ : -1] for item in matrix]
 
-        n = len(matrix)
+        matrix = np.matrix(matrix)
+        vector = np.array(vector)
+        n = matrix.shape[0]
+
+        print("Starting matrix:")
+        print(np.concatenate((matrix, vector.reshape(-1, 1)), axis=1))
+
         for i in range(n):
-            max_row = i
-            for j in range(i+1, n):
-                if abs(matrix[j][i]) > abs(matrix[max_row][i]):
-                    max_row = j
-            matrix[i], matrix[max_row] = matrix[max_row], matrix[i]
-            vector[i], vector[max_row] = vector[max_row], vector[i]
-            for j in range(i+1, n):
-                factor = matrix[j][i]/matrix[i][i]
-                for k in range(i+1, n):
-                    matrix[j][k] -= factor*matrix[i][k]
-                vector[j] -= factor*vector[i]
+            pivot = matrix[i, i]
+            if pivot == 0:
+                raise ValueError("Can't perform Gaussian elimination: 0 pivot encountered")
+            for j in range(i + 1, n):
+                factor = matrix[j, i] / pivot
+                print(f"{factor}R{i} + R{j}")
+                matrix[j, i:] -= factor * matrix[i, i:]
+                vector[j] -= factor * vector[i]
+
+            print("After elimination:")
+            print(np.concatenate((matrix, vector.reshape(-1, 1)), axis=1))
+
         x = np.zeros(n)
-        for i in range(n-1, -1, -1):
-            s = sum(matrix[i][j]*x[j] for j in range(i+1, n))
-            x[i] = (vector[i] - s)/matrix[i][i]
+
+        for i in range(n - 1, -1, -1):
+            s = sum(matrix[i, j] * x[j] for j in range(i + 1, n))
+            x[i] = (vector[i] - s) / matrix[i, i]
+
         return x
+
 
 _ = App()
