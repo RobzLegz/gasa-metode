@@ -20,11 +20,11 @@ class App:
         return num
 
     def get_matrix(self, rows: int) -> list[list[int]]:
-        # return [
-        #     [3, -6, 3, -12],
-        #     [2, 3, 4, 8],
-        #     [4, 5, -2, 4]
-        # ]
+        return [
+            [3, -6, 3, -12],
+            [2, 3, 4, 8],
+            [4, 5, -2, 4]
+        ]
 
         matrix = []
 
@@ -35,6 +35,9 @@ class App:
         return matrix
 
     def gauss(self, matrix: list[list[int]]) -> list[float]:
+        print("Starting matrix:")
+        print(np.matrix(matrix))
+
         divider = matrix[0][0]
 
         print(f"Dividing R0 by {divider}")
@@ -45,7 +48,7 @@ class App:
         matrix = np.matrix(matrix)
         n = matrix.shape[0]
 
-        print("Starting matrix:")
+        print("Result matrix:")
         print(matrix)
 
         for i in range(n):
