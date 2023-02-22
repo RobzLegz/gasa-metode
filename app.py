@@ -24,12 +24,6 @@ class App:
         return num
 
     def get_matrix(self, rows: int) -> list[list[int]]:
-        return [
-            [1.17, 0.53, -0.84, 1.15],
-            [0.64, -0.72, -0.43, 0.15],
-            [0.32, 0.43, -0.93, -0.48]
-        ]
-
         matrix = []
 
         for i in range(rows):
